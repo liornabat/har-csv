@@ -28,11 +28,11 @@ def read_har_and_export_csv(har_filename, csv_filename):
         writer = csv.writer(csv_file)
         # Write the header row
         writer.writerow([
-            'pageRef', 'startedDateTime', 'requestMethod', 'requestUrl',
-            'requestHttpVersion', 'requestHeaderSize', 'requestBodySize',
+            'host','connection','startedDateTime', 'requestMethod', 'requestUrl',
+            'requestHttpVersion',  'requestBodySize',
             'responseStatus', 'responseContentSize', 'responseContentType',
             'responseContentLength', 'responseCacheControl', 'blocked',
-            'dns', 'ssl', 'connect', 'send', 'wait', 'receive', 'time'
+            'dns', 'ssl', 'connect', 'send', 'wait', 'receive', 'time','blocked_queueing','blocked_proxy'
         ])
 
         # Write each entry
@@ -43,12 +43,12 @@ def read_har_and_export_csv(har_filename, csv_filename):
             responseHeaders = response.get('headers', [])
 
             writer.writerow([
-                entry.get('pageref', ''),
+                entry.get('serverIPAddress', ''),
+                entry.get('connection', ''),
                 entry.get('startedDateTime', ''),
                 request.get('method', ''),
                 request.get('url', ''),
                 request.get('httpVersion', ''),
-                request.get('headersSize', ''),
                 request.get('bodySize', ''),
                 response.get('status', ''),
                 response.get('content', {}).get('size', ''),
@@ -62,7 +62,10 @@ def read_har_and_export_csv(har_filename, csv_filename):
                 timings.get('send', ''),
                 timings.get('wait', ''),
                 timings.get('receive', ''),
-                entry.get('time', '')
+                entry.get('time', ''),
+                timings.get('_blocked_queueing', ''),
+                timings.get('_blocked_proxy', '')
+
             ])
 
 

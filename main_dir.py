@@ -2,7 +2,8 @@ import json
 import csv
 import os
 import sys
-
+from datetime import datetime
+from collections import defaultdict
 
 def extract_header_value(headers, name):
     """
